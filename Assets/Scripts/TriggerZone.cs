@@ -40,9 +40,9 @@ public class TriggerZone : MonoBehaviour
         player.movementSettings.StrafeSpeed = 1f;
         player.movementSettings.RunMultiplier = 0.1f;
         player.movementSettings.JumpForce = 0.5f;
-        audioSource.volume = 0.25f;
+        audioSource.volume = 0.01f;
         audioSource.Play();
-        tunnelAudioSource.volume = 0.5f;
+        tunnelAudioSource.volume = 0.01f;
         tunnelAudioSource.Play();
       UnityEngine.Rendering.Universal.Vignette vignette;
       
@@ -60,9 +60,9 @@ public class TriggerZone : MonoBehaviour
         for (int i = 0; i < 120; i++)
         {
 
-            timer += 1.0f / 120.0f;
+            timer += vignetteFirstStep / 120.0f;
             vig.intensity.Interp(0, vignetteFirstStep,timer);
-            yield return new WaitForSeconds(1.0f / 120.0f);
+            yield return new WaitForSeconds(vignetteFirstStep / 120.0f);
         }
 
         for (int i = 0; i < cycle; i++)
@@ -72,8 +72,8 @@ public class TriggerZone : MonoBehaviour
             {
                 
                 timer += (vignetteSecondStep - vignetteFirstStep) / 120.0f;
-                vig.intensity.Interp(vignetteFirstStep, vignetteSecondStep,timer);
-                yield return new WaitForSeconds(1.0f / 120.0f);
+                vig.intensity.value = timer;
+                yield return new WaitForSeconds((vignetteSecondStep - vignetteFirstStep) / 120.0f);
                 
             }
             timer = vignetteSecondStep;
@@ -82,8 +82,8 @@ public class TriggerZone : MonoBehaviour
                 
                 timer -= (vignetteSecondStep - vignetteFirstStep) / 120f;
                 
-                vig.intensity.Interp(vignetteSecondStep, vignetteFirstStep,timer);
-                yield return new WaitForSeconds(1.0f / 120.0f);
+                vig.intensity.value = timer;
+                yield return new WaitForSeconds((vignetteSecondStep - vignetteFirstStep) / 120.0f);
             }
         }
 
